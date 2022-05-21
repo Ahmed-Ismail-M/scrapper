@@ -1,4 +1,3 @@
-import os
 import openpyxl
 import requests
 from bs4 import BeautifulSoup
@@ -16,17 +15,10 @@ for row, items in enumerate(result):
     for col in range(len(data)):
         try:
             if col <= len(links):
-                ws.cell(row+1, col+1, str(data[col].text)).hyperlink = "https://ar.wikipedia.org/wiki/"+links[col-1].text
+                ws.cell(row + 1, col + 1, str(data[col].text)).hyperlink = "https://ar.wikipedia.org/wiki/" + links[col - 1].text  # type: ignore
             else:
-                ws.cell(row+1, col+1, str(data[col].text))
-        except IndexError:pass
-wb.save('test.xls')
-# for items in soup.find('table', class_='wikitable').find_all('tr')[1::1]:  # type: ignore
-#     data = items.find_all(['th','td'])
-#     links = items.find_all('a')
-#     try:
-#         novels['index'] = data[0].text
-#         novels['title'] = data[1].text
-#         novels['auther'] = data[2].text
-#         novels['country'] = data[3].text
-#     except IndexError:pass
+                ws.cell(row + 1, col + 1, str(data[col].text))
+        except IndexError:
+            pass
+wb.save("test.xlsx")
+
