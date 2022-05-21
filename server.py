@@ -14,6 +14,7 @@ def home():
     if request.method == "POST" or request.method == "PUT":
         if request.method == "POST":
             id = data_store.get_last_id()
+            print(id)
         else:
             if request.values.get("book_id"):
                 id = int(request.values.get("book_id"))
