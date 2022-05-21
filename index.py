@@ -20,9 +20,9 @@ def write_to_excel(url:str, path:str):
                 value = str(data[col].text)
                 if col <= len(links):
                     hyperlink = "https://ar.wikipedia.org/" + links[col-1]['href']  # type: ignore
-                    excel_service.write_to_excel_with_hyperlink(row=row+1, col=col+1, data=value, hyperlink=hyperlink )
+                    excel_service.write_with_hyperlink(row=row+1, col=col+1, data=value, hyperlink=hyperlink )
                 else:
-                    excel_service.write_to_excel(row=row+1, col=col+1, data=value)
+                    excel_service.write(row=row+1, col=col+1, data=value)
             except IndexError:
                 pass
 
