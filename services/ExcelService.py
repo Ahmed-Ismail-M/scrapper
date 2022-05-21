@@ -1,7 +1,5 @@
 import openpyxl
-
 from models.bookModel import Book
-
 
 class ExcelService:
     def __init__(self, path=None) -> None:
@@ -30,10 +28,12 @@ class ExcelService:
         return 0
 
     def read(self) -> dict:
-        books ={}
+        books = {}
         for r in range(self.ws.max_row):
-            books['id'] = self.ws.cell(r + 1, 1).value
-            books['title'] = self.ws.cell(r + 1, 2).value
-            books['author'] = self.ws.cell(r + 1, 3).value
-            books['country'] = self.ws.cell(r + 1, 4).value
+            books[r+1] = Book(
+                id=self.ws.cell(r + 1, 1).value,
+                title=self.ws.cell(r + 1, 2).value,
+                author=self.ws.cell(r + 1, 3).value,
+                country=self.ws.cell(r + 1, 4).value,
+            ).__dict__
         return books
