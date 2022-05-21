@@ -31,7 +31,6 @@ class ExcelService:
         if self.ws:
             for index in range(self.ws.max_column):
                 self.ws.cell(row, index+1).value = None
-
     def read(self) -> dict:
         books = {}
         for r in range(self.ws.max_row):
