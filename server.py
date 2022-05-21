@@ -36,7 +36,10 @@ def home():
            
     if request.method == "DELETE":
         book_id = request.values.get('book_id')
-
+        if book_id:
+            return data_store.delete_book(index=int(book_id))
+        else:
+            return "MIssing inputs"
     return "hi"
 
 app.config['JSON_AS_ASCII'] = False

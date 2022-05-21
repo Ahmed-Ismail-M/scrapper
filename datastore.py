@@ -15,4 +15,6 @@ class DataStore:
         
         return self.excelserver.read()
     
-    
+    def delete_book(self, index:int):
+        self.excelserver.delete(index)
+        return 'deleted'
