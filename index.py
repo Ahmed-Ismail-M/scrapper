@@ -13,15 +13,14 @@ def write_to_excel(url:str, path:str):
     result = soup.find("table", class_="wikitable").find_all("tr")[1::1]  # type: ignore
     for row, items in enumerate(result):
         data = items.find_all(["th", "td"])
-        links = items.find_all("a", href=True)
         for col in range(len(data)):
             try:
-                value = str(data[col].text)
-                if col <= len(links):
-                    hyperlink = "https://ar.wikipedia.org/" + links[col-1]['href']  # type: ignore
-                    excel_service.write_with_hyperlink(row=row+1, col=col+1, data=value, hyperlink=hyperlink )
+                if data[col].find('a'):
+                    hyperlink = "https://ar.wikipedia.org/" + data[col].find('a').get('href')  # type: ignore
                 else:
-                    excel_service.write(row=row+1, col=col+1, data=value)
+                    hyperlink=None
+                value = str(data[col].text)
+                excel_service.write(row=row+1, col=col+1, data=value, hyperlink=hyperlink)
             except IndexError:
                 pass
 

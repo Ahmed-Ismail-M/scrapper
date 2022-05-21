@@ -7,16 +7,11 @@ class ExcelService:
             self.wb = openpyxl.load_workbook(path)
             self.ws = self.wb.active
         else:
-            self.wb = openpyxl.Workbook()  # open workboopk
-            self.ws = self.wb.active  # open sheet
-
-    def write_with_hyperlink(self, row: int, col: int, data: str, hyperlink: str):
+            self.wb = openpyxl.Workbook()  # new workboopk
+            self.ws = self.wb.active  # new sheet
+    def write(self, row: int, col: int, data: str, hyperlink=None):
         if self.ws:
-            self.ws.cell(row, col, data).hyperlink = hyperlink  # type: ignore
-
-    def write(self, row: int, col: int, data: str):
-        if self.ws:
-            self.ws.cell(row, col, data)
+            self.ws.cell(row, col, data).hyperlink = hyperlink
 
     def save(self, path: str):
         if self.wb:
@@ -33,11 +28,15 @@ class ExcelService:
                 self.ws.cell(row, index+1).value = None
     def read(self) -> dict:
         books = {}
+        print(self.ws.max_row)
         for r in range(self.ws.max_row):
-            books[r+1] = Book(
+            print(self.ws.cell(r+1,1).value)
+            # if self.ws.cell(r+1,1).value:
+            books[str(self.ws.cell(r + 1, 1).value)] = Book(
                 id=self.ws.cell(r + 1, 1).value,
                 title=self.ws.cell(r + 1, 2).value,
                 author=self.ws.cell(r + 1, 3).value,
                 country=self.ws.cell(r + 1, 4).value,
             ).__dict__
+            
         return books

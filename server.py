@@ -29,8 +29,6 @@ def home():
                 return "added"
             except PermissionError:
                 return "Excel File is locked"
-       
-
     if request.method == "DELETE":
         book_id = request.values.get("book_id")
         if book_id:
