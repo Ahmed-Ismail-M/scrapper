@@ -5,13 +5,15 @@ from datastore import DataStore
 from models.bookModel import Book
 from services.ExcelService import ExcelService
 app = Flask(__name__)
-excel_service = ExcelService(path='test.xlsl')
-@app.route('/', methods=['GET'])
+data_store = DataStore()
+@app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'GET':
-        
+        data_store.add(None)
     if request.method == "POST":
-        book = Book(id= int(request.form['id']), title= request.form['title'], auther= request.form['title'])
-      ``
-        return('hi')
+        book = Book(id= data_store.get_last_id(), title= request.values.get('title'), author= request.values.get('author'))
+        if book:
+            data_store.add(book=book)
+            return ('added')
+    return('hi')
 app.run(host='localhost', port=8000)

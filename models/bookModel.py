@@ -5,4 +5,4 @@ from dataclasses import dataclass
 class Book:
     id: int
     title: str
-    auther: str
+    author: str

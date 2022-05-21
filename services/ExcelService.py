@@ -18,6 +18,7 @@ class ExcelService:
     def save(self, path: str):
         if self.wb:
             self.wb.save(path)
-    def read(self):
+    def get_max_row(self)-> int:
         if self.ws:
             return self.ws.max_row
+        return 0
