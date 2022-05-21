@@ -10,7 +10,6 @@ def write_to_excel(url:str, path:str):
     res = requests.get(url=url).text
     soup = BeautifulSoup(res, "html.parser")
     excel_service = ExcelService()
-    excel_service.creat_wb()
     result = soup.find("table", class_="wikitable").find_all("tr")[1::1]  # type: ignore
     for row, items in enumerate(result):
         data = items.find_all(["th", "td"])

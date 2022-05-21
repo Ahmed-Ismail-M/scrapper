@@ -2,12 +2,13 @@
 import openpyxl
 
 class ExcelService:
-    def __init__(self) -> None:
-        self.wb = None
-        self.ws = None
-    def creat_wb(self):
-        self.wb = openpyxl.Workbook()  # open workboopk
-        self.ws = self.wb.active  # open sheet
+    def __init__(self, path=None) -> None:
+        if path:
+            self.wb = openpyxl.load_workbook(path)
+            self.ws = self.wb.active
+        else:
+            self.wb = openpyxl.Workbook()  # open workboopk
+            self.ws = self.wb.active  # open sheet
     def write_to_excel_with_hyperlink(self, row:int, col:int, data:str, hyperlink:str):
         if self.ws:
             self.ws.cell(row + 1, col + 1, data).hyperlink = hyperlink # type: ignore
@@ -17,3 +18,6 @@ class ExcelService:
     def save(self, path: str):
         if self.wb:
             self.wb.save(path)
+    def read(self):
+        if self.ws:
+            return self.ws.max_row
