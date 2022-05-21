@@ -34,7 +34,7 @@ def home():
         if book_id:
             return data_store.delete_book(index=int(book_id))
         else:
-            return "MIssing inputs"
+            return "Missing inputs"
 
 
 app.config["JSON_AS_ASCII"] = False
