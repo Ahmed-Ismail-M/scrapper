@@ -6,3 +6,4 @@ class Book:
     id: int
     title: str
     author: str
+    country: str

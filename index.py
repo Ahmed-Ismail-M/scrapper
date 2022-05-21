@@ -16,7 +16,6 @@ def write_to_excel(url:str, path:str):
         links = items.find_all("a", href=True)
         for col in range(len(data)):
             try:
-                
                 value = str(data[col].text)
                 if col <= len(links):
                     hyperlink = "https://ar.wikipedia.org/" + links[col-1]['href']  # type: ignore

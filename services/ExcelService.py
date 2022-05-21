@@ -1,5 +1,7 @@
 import openpyxl
 
+from models.bookModel import Book
+
 
 class ExcelService:
     def __init__(self, path=None) -> None:
@@ -12,11 +14,11 @@ class ExcelService:
 
     def write_with_hyperlink(self, row: int, col: int, data: str, hyperlink: str):
         if self.ws:
-            self.ws.cell(row + 1, col + 1, data).hyperlink = hyperlink  # type: ignore
+            self.ws.cell(row, col, data).hyperlink = hyperlink  # type: ignore
 
     def write(self, row: int, col: int, data: str):
         if self.ws:
-            self.ws.cell(row + 1, col + 1, data)
+            self.ws.cell(row, col, data)
 
     def save(self, path: str):
         if self.wb:
@@ -26,3 +28,12 @@ class ExcelService:
         if self.ws:
             return self.ws.max_row
         return 0
+
+    def read(self) -> dict:
+        books ={}
+        for r in range(self.ws.max_row):
+            books['id'] = self.ws.cell(r + 1, 1).value
+            books['title'] = self.ws.cell(r + 1, 2).value
+            books['author'] = self.ws.cell(r + 1, 3).value
+            books['country'] = self.ws.cell(r + 1, 4).value
+        return books
