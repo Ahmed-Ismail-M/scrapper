@@ -11,7 +11,7 @@ class DataStore:
     def add(self, book: Book):
         for index, value in enumerate(book.__dict__.values()):
             self.excel_service.write(book.id, index+1, value)
-            self.excel_service.save(PATH)
+            self.excel_service.save()
     def get_last_id(self)-> int:
         max_id = self.excel_service.get_max_row()
         self.excel_service.close()
@@ -23,8 +23,8 @@ class DataStore:
     
     def delete_book(self, index:int):
         self.excel_service.delete(index)
-        self.excel_service.save(PATH)
+        self.excel_service.save()
         return 'deleted'
     def create_database(self):
         self.excel_service = ExcelService()
-        self.excel_service.save(PATH)
+        self.excel_service.save()

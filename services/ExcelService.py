@@ -1,5 +1,4 @@
 import openpyxl
-
 from services.SheetInterface import SheetService
 
 class ExcelService(SheetService):
@@ -10,13 +9,14 @@ class ExcelService(SheetService):
         else:
             self.wb = openpyxl.Workbook()  # new workboopk
             self.ws = self.wb.active  # new sheet
+        self.path = path
     def write(self, row: int, col: int, data: str, hyperlink=None):
         if self.ws:
             self.ws.cell(row, col, data).hyperlink = hyperlink
 
-    def save(self, path: str):
+    def save(self):
         if self.wb:
-            self.wb.save(path)
+            self.wb.save(self.path)
 
     def get_max_row(self) -> int:
         if self.ws:

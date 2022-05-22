@@ -17,5 +17,5 @@ class GSheetService(SheetService):
             return
         self.ws.update_cell(row, col, f'=HYPERLINK("{hyperlink}","{data}")')
 
-    def save(self, path: str = ''):
-        return super().save(path)
+    def save(self):
+        return super().save()

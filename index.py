@@ -26,5 +26,6 @@ def write_to_sheet(url:str, path:str, sheet_service: SheetService):
             except IndexError:
                 pass
 
-    sheet_service.save(path=path)
-write_to_sheet(url=URL, path=PATH, sheet_service=GSheetService(path='books'))
+    sheet_service.save()
+# write_to_sheet(url=URL, path=PATH, sheet_service=GSheetService(path='books'))
+write_to_sheet(url=URL, path=PATH, sheet_service=ExcelService(path=PATH))

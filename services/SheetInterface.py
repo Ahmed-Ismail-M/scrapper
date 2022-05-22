@@ -7,5 +7,5 @@ class SheetService(ABC):
         pass
     def write(self, row: int, col:int, data, hyperlink:str):
         pass
-    def save(self, path:str=''):
+    def save(self):
         pass
