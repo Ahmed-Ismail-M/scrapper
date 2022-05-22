@@ -4,10 +4,8 @@ from services.ExcelService import ExcelService
 PATH = 'test.xlsx'
 class DataStore:
     def __init__(self) -> None:
-        try:
-            self.excel_service = ExcelService(path=PATH)
-        except FileNotFoundError:
-            self.create_database()
+        self.excel_service = ExcelService(path=PATH)
+      
     def add(self, book: Book):
         for index, value in enumerate(book.__dict__.values()):
             self.excel_service.write(book.id, index+1, value)
@@ -25,6 +23,6 @@ class DataStore:
         self.excel_service.delete(index)
         self.excel_service.save()
         return 'deleted'
-    def create_database(self):
-        self.excel_service = ExcelService(path=PATH)
-        self.excel_service.save()
+    # def create_database(self):
+    #     self.excel_service = ExcelService(path=PATH)
+    #     self.excel_service.save()

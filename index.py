@@ -1,13 +1,16 @@
 import requests
 from bs4 import BeautifulSoup
-import pandas as pd
 from services.ExcelService import ExcelService
 from services.GsheetService import GSheetService
 from services.SheetInterface import SheetService
-
+def main():
+    write_to_excel(url=URL)
+    write_to_gsheet(url=URL)
 URL = "https://ar.wikipedia.org/wiki/%D9%82%D8%A7%D8%A6%D9%85%D8%A9_%D8%A3%D9%81%D8%B6%D9%84_%D9%85%D8%A6%D8%A9_%D8%B1%D9%88%D8%A7%D9%8A%D8%A9_%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9"
-PATH = 'test.xlsx'
-def write_to_sheet(url:str, sheet_service: SheetService):
+EXCEL_PATH = 'test.xlsx'
+GSHEET_PATH = 'books'
+def write_to_excel(url:str):
+    sheet_service=ExcelService(path=EXCEL_PATH)
     res = requests.get(url=url).text
     soup = BeautifulSoup(res, "html.parser")
     result = soup.find("table", class_="wikitable").find_all("tr")[1::1]  # type: ignore
@@ -25,7 +28,7 @@ def write_to_sheet(url:str, sheet_service: SheetService):
                 pass
     sheet_service.save()
 
-def scrap(url:str)-> list:
+def write_to_gsheet(url:str):
     res = requests.get(url=url).text
     soup = BeautifulSoup(res, "html.parser")
     result = soup.find("table", class_="wikitable").find_all("tr")[1::1]  # type: ignore
@@ -45,12 +48,5 @@ def scrap(url:str)-> list:
             except IndexError:
                 pass
         rows.append(row)
-    return rows
-# write_to_sheet(url=URL,  sheet_service=GSheetService(path='books'))
-# write_to_sheet(url=URL,  sheet_service=ExcelService(path=PATH))
-print(scrap(url=URL))
-df = pd.DataFrame(scrap(url=URL))
-# df.apply(lambda s:s.str.replace("''", ""))
-ExcelService(path='test.xlsx').write_multiple(df)
-# GSheetService(path='books').write_multiple(df)
-print(df)
+    GSheetService(path=GSHEET_PATH).write_multiple(rows)
+main()

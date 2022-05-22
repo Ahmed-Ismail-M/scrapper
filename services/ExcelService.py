@@ -1,16 +1,17 @@
 import openpyxl
 from services.SheetInterface import SheetService
-from pandas.core.frame import DataFrame
-import pandas as pd
 class ExcelService(SheetService):
     def __init__(self, path) -> None:
             self.path = path
-            self.wb = openpyxl.Workbook()  # new workboopk
+            try:
+                self.wb = openpyxl.load_workbook(self.path)  # new workboopk
+            except FileNotFoundError:
+                self.wb = openpyxl.Workbook()
             self.ws = self.wb.active  # new sheet
         
     def write(self, row: int, col: int, data: str, hyperlink=None):
         if self.ws:
-            self.ws.cell(row, col, data).hyperlink = hyperlink
+            self.ws.cell(row, col, data).hyperlink=hyperlink
 
     def save(self):
         if self.wb:
@@ -42,6 +43,9 @@ class ExcelService(SheetService):
     def close(self):
         self.wb.close()
     
-    def write_multiple(self, dataframe: DataFrame):
-        with pd.ExcelWriter(self.path, engine='openpyxl') as writer:
-            dataframe.to_excel(writer, 'sheet1')
+    def write_multiple(self, data: list):
+        for index, row in enumerate(data):
+            for col, value in enumerate(row):
+                self.write(index + 1, col +1, value)
+        # with pd.ExcelWriter(self.path, engine='openpyxl') as writer:
+        #     dataframe.to_excel(writer, 'sheet1')
