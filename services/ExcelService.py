@@ -4,9 +4,9 @@ class ExcelService(SheetService):
     def __init__(self, path) -> None:
             self.path = path
             try:
-                self.wb = openpyxl.load_workbook(self.path)  # new workboopk
+                self.wb = openpyxl.load_workbook(self.path)  
             except FileNotFoundError:
-                self.wb = openpyxl.Workbook()
+                self.wb = openpyxl.Workbook()# new workboopk
             self.ws = self.wb.active  # new sheet
         
     def write(self, row: int, col: int, data: str, hyperlink=None):
@@ -28,9 +28,9 @@ class ExcelService(SheetService):
                 self.ws.cell(row, index+1).value = None
     def read(self) -> dict:
         books = {}
-        print(self.ws.max_row)
+        # print(self.ws.max_row)
         for r in range(self.ws.max_row):
-            print(self.ws.cell(r+1,1).value)
+            # print(self.ws.cell(r+1,1).value)
             # if self.ws.cell(r+1,1).value:
             books[str(self.ws.cell(r + 1, 1).value)] = {
                 "id":self.ws.cell(r + 1, 1).value,
