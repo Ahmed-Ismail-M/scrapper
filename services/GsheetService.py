@@ -1,6 +1,6 @@
 import gspread
 from services.SheetInterface import SheetService
-
+from pandas.core.frame import DataFrame
 class GSheetService(SheetService):
     def __init__(self, path=None) -> None:
         self.s_acc = gspread.service_account('credentials.json')
@@ -17,7 +17,7 @@ class GSheetService(SheetService):
             return
         self.ws.update_cell(row, col, f'=HYPERLINK("{hyperlink}","{data}")')
 
-    def write_multiple(self, dataframe):
+    def write_multiple(self, dataframe: DataFrame):
         self.ws.update([dataframe.columns.values.tolist()] + dataframe.values.tolist(), value_input_option='USER_ENTERED')
     def save(self):
         return super().save()

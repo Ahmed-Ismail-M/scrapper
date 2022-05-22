@@ -1,6 +1,7 @@
 import openpyxl
 from services.SheetInterface import SheetService
-
+from pandas.core.frame import DataFrame
+import pandas as pd
 class ExcelService(SheetService):
     def __init__(self, path) -> None:
             self.path = path
@@ -40,3 +41,7 @@ class ExcelService(SheetService):
 
     def close(self):
         self.wb.close()
+    
+    def write_multiple(self, dataframe: DataFrame):
+        with pd.ExcelWriter(self.path, engine='openpyxl') as writer:
+            dataframe.to_excel(writer, 'sheet1')

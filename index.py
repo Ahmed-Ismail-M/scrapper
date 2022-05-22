@@ -51,5 +51,6 @@ def scrap(url:str)-> list:
 print(scrap(url=URL))
 df = pd.DataFrame(scrap(url=URL))
 # df.apply(lambda s:s.str.replace("''", ""))
-GSheetService(path='books').write_multiple(df)
+ExcelService(path='test.xlsx').write_multiple(df)
+# GSheetService(path='books').write_multiple(df)
 print(df)

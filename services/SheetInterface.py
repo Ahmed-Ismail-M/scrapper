@@ -9,3 +9,5 @@ class SheetService(ABC):
         pass
     def save(self):
         pass
+    def write_multiple(self, dataframe):
+        pass
