@@ -1,0 +1,9 @@
+from abc import ABC, abstractmethod
+
+
+class SheetService(ABC):
+    @abstractmethod
+    def read(self):
+        pass
+    def write(self, row: int, col:int, value, hyperlink:str):
+        pass
