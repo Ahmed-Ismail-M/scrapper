@@ -26,5 +26,5 @@ class DataStore:
         self.excel_service.save()
         return 'deleted'
     def create_database(self):
-        self.excel_service = ExcelService()
+        self.excel_service = ExcelService(path=PATH)
         self.excel_service.save()
