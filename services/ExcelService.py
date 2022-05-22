@@ -2,14 +2,11 @@ import openpyxl
 from services.SheetInterface import SheetService
 
 class ExcelService(SheetService):
-    def __init__(self, path=None) -> None:
-        if path:
-            self.wb = openpyxl.load_workbook(path)
-            self.ws = self.wb.active
-        else:
+    def __init__(self, path) -> None:
+            self.path = path
             self.wb = openpyxl.Workbook()  # new workboopk
             self.ws = self.wb.active  # new sheet
-        self.path = path
+        
     def write(self, row: int, col: int, data: str, hyperlink=None):
         if self.ws:
             self.ws.cell(row, col, data).hyperlink = hyperlink
