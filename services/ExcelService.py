@@ -1,5 +1,4 @@
 import openpyxl
-from models.bookModel import Book
 
 class ExcelService:
     def __init__(self, path=None) -> None:
@@ -32,11 +31,13 @@ class ExcelService:
         for r in range(self.ws.max_row):
             print(self.ws.cell(r+1,1).value)
             # if self.ws.cell(r+1,1).value:
-            books[str(self.ws.cell(r + 1, 1).value)] = Book(
-                id=self.ws.cell(r + 1, 1).value,
-                title=self.ws.cell(r + 1, 2).value,
-                author=self.ws.cell(r + 1, 3).value,
-                country=self.ws.cell(r + 1, 4).value,
-            ).__dict__
-            
+            books[str(self.ws.cell(r + 1, 1).value)] = {
+                "id":self.ws.cell(r + 1, 1).value,
+                "title":self.ws.cell(r + 1, 2).value,
+                "author":self.ws.cell(r + 1, 3).value,
+                "country":self.ws.cell(r + 1, 4).value,
+            }
         return books
+
+    def close(self):
+        self.wb.close()

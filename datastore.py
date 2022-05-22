@@ -14,10 +14,12 @@ class DataStore:
             self.excel_service.save(PATH)
     def get_last_id(self)-> int:
         max_id = self.excel_service.get_max_row()
+        self.excel_service.close()
         return max_id+1
     def get_all_books(self):
-        
-        return self.excel_service.read()
+        books = self.excel_service.read()
+        self.excel_service.close()
+        return books
     
     def delete_book(self, index:int):
         self.excel_service.delete(index)
