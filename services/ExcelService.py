@@ -1,6 +1,8 @@
 import openpyxl
 
-class ExcelService:
+from services.SheetInterface import SheetService
+
+class ExcelService(SheetService):
     def __init__(self, path=None) -> None:
         if path:
             self.wb = openpyxl.load_workbook(path)
