@@ -37,10 +37,11 @@ def scrap(url:str)-> list:
             try:
                 if data[col].find('a'):
                     hyperlink = "https://ar.wikipedia.org/" + data[col].find('a').get('href')  # type: ignore
+                    value = f"=HYPERLINK(\"{hyperlink}\",\"{str(data[col].text)}\")"
                 else:
-                    hyperlink=None
-                value = str(data[col].text)
-                row.append(( value))
+                    value=value = str(data[col].text)
+            
+                row.append(value)
             except IndexError:
                 pass
         rows.append(row)
@@ -48,5 +49,7 @@ def scrap(url:str)-> list:
 # write_to_sheet(url=URL,  sheet_service=GSheetService(path='books'))
 # write_to_sheet(url=URL,  sheet_service=ExcelService(path=PATH))
 print(scrap(url=URL))
-df = pd.DataFrame(scrap(url=URL),['ID','Title','Author','Country'])
+df = pd.DataFrame(scrap(url=URL))
+# df.apply(lambda s:s.str.replace("''", ""))
+GSheetService(path='books').write_multiple(df)
 print(df)

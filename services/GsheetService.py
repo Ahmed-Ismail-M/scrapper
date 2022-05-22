@@ -17,5 +17,7 @@ class GSheetService(SheetService):
             return
         self.ws.update_cell(row, col, f'=HYPERLINK("{hyperlink}","{data}")')
 
+    def write_multiple(self, dataframe):
+        self.ws.update([dataframe.columns.values.tolist()] + dataframe.values.tolist(), value_input_option='USER_ENTERED')
     def save(self):
         return super().save()
