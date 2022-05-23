@@ -19,13 +19,12 @@ class GSheetService(SheetService):
 
     def write_multiple(self, data_list: list):
         df = pd.DataFrame(data_list)
-        df= df.apply(self.tuple_to_value)
-        print(df)
-        # self.ws.update(df.values.tolist(), value_input_option='USER_ENTERED')
+        df= df.applymap(self.check_hyperlink)
+        self.ws.update(df.values.tolist(), value_input_option='USER_ENTERED')
 
-    def tuple_to_value(self, t: tuple):
-        hyperlink = "https://ar.wikipedia.org/" + t[1]  # type: ignore
-        value = f'=HYPERLINK("{hyperlink}","{t[0]}")'
-        return value
+    def check_hyperlink(self, t: tuple):
+        if isinstance(t, tuple): # IF the value has hyperlink
+            return f'=HYPERLINK("{t[1]}","{t[0]}")'
+        return t[0]
     def save(self):
         return super().save()
