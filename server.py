@@ -2,7 +2,6 @@ from flask import Flask
 from flask.globals import request
 from datastore import DataStore
 from models.bookModel import Book
-
 app = Flask(__name__)
 data_store = DataStore()
 

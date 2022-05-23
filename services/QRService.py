@@ -6,6 +6,7 @@ from reportlab.lib.styles import ParagraphStyle as PS
 from reportlab.lib.enums import TA_CENTER
 from reportlab.platypus import Image
 import tempfile
+import pandas as pd
 
 PATH = "qr.png"
 URL = f"https://ar.wikipedia.org/wiki/%D9%8A%D8%AD%D9%8A%D9%89_%D8%AD%D9%82%D9%8A"
@@ -67,3 +68,10 @@ def build_pdf(pdf_path:str, title: str):
     doc.multiBuild(items)
 
 
+def create_multiple_qr(data: list):
+    df = pd.DataFrame(data)
+    df[1].applymap(check_hyperlink)
+
+def check_hyperlink(t: tuple):
+        if isinstance(t, tuple):  # IF the value has hyperlink
+            create_qr(t[1], t[0])
