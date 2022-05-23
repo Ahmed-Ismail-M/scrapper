@@ -3,9 +3,10 @@ from services.SheetInterface import SheetService
 from pandas.core.frame import DataFrame
 import pandas as pd
 class GSheetService(SheetService):
-    def __init__(self, url=None) -> None:
+    def __init__(self, path) -> None:
+        self.path = path
         self.s_acc = gspread.service_account('credentials.json')
-        self.sh = self.s_acc.open_by_url(url)
+        self.sh = self.s_acc.open_by_url(self.path)
         self.ws = self.sh.worksheet('Sheet1')
     
     def read(self):
@@ -28,3 +29,6 @@ class GSheetService(SheetService):
         return t[0]
     def save(self):
         return super().save()
+    
+    def __str__(self) -> str:
+        return 'Google Sheets'

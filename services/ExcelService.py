@@ -52,3 +52,5 @@ class ExcelService(SheetService):
                     self.write(index + 1, col +1, data=value)
         # with pd.ExcelWriter(self.path, engine='openpyxl') as writer:
         #     dataframe.to_excel(writer, 'sheet1')
+    def __str__(self) -> str:
+        return 'Excel'

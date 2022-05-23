@@ -2,6 +2,9 @@ from abc import ABC, abstractmethod
 
 
 class SheetService(ABC):
+    def __init__(self, path) -> None:
+        self.path = path
+        super().__init__()
     @abstractmethod
     def read(self):
         pass
