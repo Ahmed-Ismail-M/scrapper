@@ -35,17 +35,24 @@ def home():
         try:
             book = Book(id=book_id, title=title, author=author, country=country)
             if book:
-                try:
-                    data_store.add(book=book)
-                    return f"Updated with id: {book_id}"
-                except PermissionError:
-                    return "Excel File is locked"
+                result = data_store.get_by_id(book.id)
+                if result:
+                    try:
+                        data_store.add(book=book)
+                        return f"Updated with id: {book_id}"
+                    except PermissionError:
+                        return "Excel File is locked"
+                return " Not Found"
         except ValueError as error:
             return error.__str__()
     if request.method == "DELETE":
         book_id = request.values.get("book_id")
         if book_id:
-            return data_store.delete_book(index=int(book_id))
+            try:
+                data_store.delete_book(index=int(book_id))
+            except ValueError:
+                return"invalid input"
+            return "Deleted book no " + book_id
         else:
             return "Missing inputs"
 
@@ -56,6 +63,7 @@ def get_book(book_id):
         try:
             if data_store.get_by_id(int(book_id)):
                 return data_store.get_by_id(int(book_id))
+            return 'Not found'
         except ValueError:
             return "Invalid ID"
 

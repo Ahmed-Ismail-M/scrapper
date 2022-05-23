@@ -26,7 +26,6 @@ class DataStore:
     def delete_book(self, index: int):
         self.excel_service.delete(index)
         self.excel_service.save()
-        return "deleted"
 
     def get_by_id(self, book_id: int):
         return self.excel_service.get_by_id(book_id)
