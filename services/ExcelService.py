@@ -46,6 +46,9 @@ class ExcelService(SheetService):
     def write_multiple(self, data: list):
         for index, row in enumerate(data):
             for col, value in enumerate(row):
-                self.write(index + 1, col +1, value)
+                if isinstance(value, tuple):
+                    self.write(index + 1, col +1, data=value[0], hyperlink=value[1])
+                else:
+                    self.write(index + 1, col +1, data=value)
         # with pd.ExcelWriter(self.path, engine='openpyxl') as writer:
         #     dataframe.to_excel(writer, 'sheet1')
