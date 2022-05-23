@@ -1,12 +1,11 @@
+import os
 import qrcode
-from reportlab.graphics import renderPDF
-from svglib.svglib import svg2rlg
 from reportlab.platypus import SimpleDocTemplate
 from reportlab import platypus
 from reportlab.lib.styles import ParagraphStyle as PS
-from reportlab.pdfgen import canvas
+from reportlab.lib.enums import TA_CENTER
 from reportlab.platypus import Image
-
+import tempfile
 
 PATH = "qr.png"
 URL = f"https://ar.wikipedia.org/wiki/%D9%8A%D8%AD%D9%8A%D9%89_%D8%AD%D9%82%D9%8A"
@@ -27,19 +26,13 @@ class HyperlinkedImage(Image, object):
         lazy=1,
         hAlign="CENTER",
     ):
-        """The only variable added to __init__() is hyperlink.
-
-        It defaults to None for the if statement used later.
-        """
         super(HyperlinkedImage, self).__init__(
             filename, width, height, kind, mask, lazy, hAlign=hAlign
         )
         self.hyperlink = hyperlink
 
     def drawOn(self, canvas, x, y, _sW=0):
-        if self.hyperlink:  # If a hyperlink is given, create a canvas.linkURL()
-            # This is basically adjusting the x coordinate according to the alignment
-            # given to the flowable (RIGHT, LEFT, CENTER)
+        if self.hyperlink: 
             x1 = self._hAlignAdjust(x, _sW)
             y1 = y
             x2 = x1 + self._width
@@ -50,7 +43,7 @@ class HyperlinkedImage(Image, object):
         super(HyperlinkedImage, self).drawOn(canvas, x, y, _sW)
 
 
-def create_svg(url: str):
+def create_qr(url: str):
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.ERROR_CORRECT_L,
@@ -59,30 +52,21 @@ def create_svg(url: str):
     )
     qr.add_data(url)
     img = qr.make_image()
-    # img = qrcode.make(url, image_factory=qimg.SvgPathImage)
-    # img = qrcode.mak
     with open(PATH, "wb") as qr:
         img.save(qr)
+        build_pdf(path=pdf_PATH)
+    os.remove(PATH)
 
-
-# def create_pdf(path, url):
-#     create_svg(url)
-#     img = svg2rlg(PATH)
-#     renderPDF.drawToFile(img, path)
-
-
-def create_from_string(path):
-    create_svg(URL)
+def build_pdf(path):
+    # create_qr(URL)
     items = []
-    text = f"""
-    <h1 style="color:red; font-size: xx-large;">
-    Aly Ahmed Ismail</h1 >"""
-    items.append(HyperlinkedImage(PATH, URL, 100, 100))
-    items.append(platypus.Paragraph(text, PS("body")))
+    text = """احمد""".encode('utf8')
+    p_style = PS(name='Normal_CENTER', alignment=TA_CENTER,font='Arial',
+    fontSize=30)
+    items.append(HyperlinkedImage(PATH, URL, 300, 300))
+    items.append(platypus.Paragraph(text,p_style))
     doc = SimpleDocTemplate(path)
-    
     doc.multiBuild(items)
+create_qr(URL)
 
-
-# create_pdf('test.pdf', 'https://im-software.net/')
-create_from_string("test2.pdf")
+# build_pdf("test2.pdf")
