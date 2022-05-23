@@ -12,36 +12,36 @@ def home():
     if request.method == "GET":
         return data_store.get_all_books()
     if request.method == "POST":
-        id = data_store.get_last_id()
+        book_id = data_store.get_last_id()
         title = request.values.get("title")
         author = request.values.get("author")
         country = request.values.get("country")
         try:
-            book = Book(id=id, title=title, author=author, country=country)
+            book = Book(id=book_id, title=title, author=author, country=country)
             if book:
                 try:
                     data_store.add(book=book)
-                    return f"Added with id: {id}"
+                    return f"Added with id: {book_id}"
                 except PermissionError:
                     return "Excel File is locked"
-        except ValueError as e:
-            return e.__str__()
+        except ValueError as error:
+            return error.__str__()
 
     if request.method == "PUT":
-        id = request.values.get("book_id")
+        book_id = request.values.get("book_id")
         title = request.values.get("title")
         author = request.values.get("author")
         country = request.values.get("country")
         try:
-            book = Book(id=id, title=title, author=author, country=country)
+            book = Book(id=book_id, title=title, author=author, country=country)
             if book:
                 try:
                     data_store.add(book=book)
-                    return f"Updated with id: {id}"
+                    return f"Updated with id: {book_id}"
                 except PermissionError:
                     return "Excel File is locked"
-        except ValueError as e:
-            return e.__str__()
+        except ValueError as error:
+            return error.__str__()
     if request.method == "DELETE":
         book_id = request.values.get("book_id")
         if book_id:
