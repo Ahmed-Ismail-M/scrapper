@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
-def scrap_data(url: str)-> list:
+
+
+def scrap_data(url: str) -> list:
     res = requests.get(url=url).text
     soup = BeautifulSoup(res, "html.parser")
     result = soup.find("table", class_="wikitable").find_all("tr")[1::1]  # type: ignore
