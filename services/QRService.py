@@ -43,7 +43,7 @@ class HyperlinkedImage(Image, object):
         super(HyperlinkedImage, self).drawOn(canvas, x, y, _sW)
 
 
-def create_qr(url: str):
+def create_qr(url: str, title: str):
     qr = qrcode.QRCode(
         version=1,
         error_correction=qrcode.ERROR_CORRECT_L,
@@ -54,19 +54,16 @@ def create_qr(url: str):
     img = qr.make_image()
     with open(PATH, "wb") as qr:
         img.save(qr)
-        build_pdf(path=pdf_PATH)
+        build_pdf(pdf_path=pdf_PATH, title=title)
     os.remove(PATH)
 
-def build_pdf(path):
-    # create_qr(URL)
+def build_pdf(pdf_path:str, title: str):
     items = []
-    text = """احمد""".encode('utf8')
     p_style = PS(name='Normal_CENTER', alignment=TA_CENTER,font='Arial',
     fontSize=30)
     items.append(HyperlinkedImage(PATH, URL, 300, 300))
-    items.append(platypus.Paragraph(text,p_style))
-    doc = SimpleDocTemplate(path)
+    items.append(platypus.Paragraph(title, p_style))
+    doc = SimpleDocTemplate(pdf_path)
     doc.multiBuild(items)
-create_qr(URL)
 
-# build_pdf("test2.pdf")
+
