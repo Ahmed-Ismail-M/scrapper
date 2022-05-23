@@ -7,3 +7,5 @@ class Book:
     title: str
     author: str
     country: str
+    def __post_init__(self):
+        self.id = int(self.id)

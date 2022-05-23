@@ -1,7 +1,7 @@
 from models.bookModel import Book
 from services.ExcelService import ExcelService
-
-PATH = "test.xlsx"
+from index import EXCEL_PATH
+PATH = EXCEL_PATH
 
 
 class DataStore:
@@ -12,7 +12,7 @@ class DataStore:
         for index, value in enumerate(book.__dict__.values()):
             self.excel_service.write(book.id, index + 1, value)
             self.excel_service.save()
-
+        return book.id
     def get_last_id(self) -> int:
         max_id = self.excel_service.get_max_row()
         self.excel_service.close()
@@ -28,6 +28,7 @@ class DataStore:
         self.excel_service.save()
         return "deleted"
 
-    # def create_database(self):
-    #     self.excel_service = ExcelService(path=PATH)
-    #     self.excel_service.save()
+    def get_by_id(self, book_id: int):
+        return self.excel_service.get_by_id(book_id)
+
+

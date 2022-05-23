@@ -1,6 +1,6 @@
 import openpyxl
 from services.SheetInterface import SheetService
-
+from typing import Union
 
 class ExcelService(SheetService):
     def __init__(self, path) -> None:
@@ -42,6 +42,15 @@ class ExcelService(SheetService):
                 "country": self.ws.cell(r + 1, 4).value,
             }
         return books
+
+    def get_by_id(self, id: int)-> Union[dict, bool]:
+        return {
+             "id": self.ws.cell(id, 1).value,
+            "title": self.ws.cell(id, 2).value,
+            "author": self.ws.cell(id, 3).value,
+            "country": self.ws.cell(id, 4).value,
+
+        } if self.ws.cell(id, 1).value else False
 
     def close(self):
         self.wb.close()
