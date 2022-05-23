@@ -9,7 +9,7 @@ from reportlab.platypus import Image
 
 
 PATH = "qr.png"
-URL = "https://im-software.net/"
+URL = f"https://ar.wikipedia.org/wiki/%D9%8A%D8%AD%D9%8A%D9%89_%D8%AD%D9%82%D9%8A"
 pdf_PATH = "test.pdf"
 # PATH = 'accounting1.png'
 
@@ -72,24 +72,15 @@ def create_svg(url: str):
 
 
 def create_from_string(path):
-    create_svg("https://im-software.net/")
-    # img = svg2rlg(PATH)
-    # doc = minidom.parse(PATH)
-    # path_string = [path.getAttribute("d") for path in doc.getElementsByTagName("path")]
-    # doc.unlink()
-    # print(path_string[0])
-    # c = canvas.Canvas(pdf_PATH)
-    # c.linkURL(URL, (1, 1, 1, 1))
-    # # renderPDF.drawToFile(PATH,  c)
-    # c.drawImage(PATH, 0, 0)
-    # c.showPage()
-    # c.save()
+    create_svg(URL)
     items = []
     text = f"""
-    <link  href="/wiki/%D9%84%D8%B9%D8%A8%D8%A9_%D8%A7%D9%84%D9%86%D8%B3%D9%8A%D8%A7%D9%86">
-    <img src="{PATH}" width="33mm" height="33mm"></img></link >"""
+    <h1 style="color:red; font-size: xx-large;">
+    Aly Ahmed Ismail</h1 >"""
+    items.append(HyperlinkedImage(PATH, URL, 100, 100))
     items.append(platypus.Paragraph(text, PS("body")))
     doc = SimpleDocTemplate(path)
+    
     doc.multiBuild(items)
 
 
