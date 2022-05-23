@@ -3,12 +3,11 @@ from services.SheetInterface import SheetService
 from pandas.core.frame import DataFrame
 import pandas as pd
 class GSheetService(SheetService):
-    def __init__(self, path=None) -> None:
+    def __init__(self, url=None) -> None:
         self.s_acc = gspread.service_account('credentials.json')
-        self.sh = self.s_acc.open(path)
+        self.sh = self.s_acc.open_by_url(url)
         self.ws = self.sh.worksheet('Sheet1')
-    def update(self):
-        self.ws.update_cell(1,1, '42')
+    
     def read(self):
         return super().read()
     
