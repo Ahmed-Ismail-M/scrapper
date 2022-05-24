@@ -6,6 +6,8 @@ from reportlab.lib.styles import ParagraphStyle as PS
 from reportlab.lib.enums import TA_CENTER
 from reportlab.platypus import Image
 import pandas as pd
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 
 PATH = "qr.png"
 
@@ -56,8 +58,9 @@ def create_qr(url: str, file_name: str):
     os.remove(PATH)
 
 def build_pdf(pdf_path:str, file_name: str, url: str):
+    pdfmetrics.registerFont(TTFont('Cairo Light', 'fonts/Cairo-Light.ttf'))
     items = []
-    p_style = PS(name='Normal_CENTER', alignment=TA_CENTER,font='Arial',
+    p_style = PS(name='Normal_CENTER', alignment=TA_CENTER,fontName='Cairo Light',
     fontSize=30)
     items.append(HyperlinkedImage(PATH, url, 300, 300))
     items.append(platypus.Paragraph(file_name, p_style))
