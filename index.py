@@ -24,7 +24,7 @@ def generate_pdf():
         zipdir('books/', zipf)
     print('Data extracted successfully to '+ PDF_PATH)
 # main(GSheetService(GSHEET_PATH))
-main(ExcelService(EXCEL_PATH))
+# main(ExcelService(EXCEL_PATH))
 # generate_pdf()
 
 
