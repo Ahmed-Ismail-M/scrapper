@@ -56,7 +56,7 @@ def create_qr(url: str, file_name: str):
     img = qr.make_image()
     with open(PATH, "wb") as qr:
         img.save(qr)
-        build_pdf(pdf_path="books"+"\\"+str(file_name.strip())+".pdf", file_name=file_name, url=url)
+        build_pdf(pdf_path="books/"+str(file_name.strip())+".pdf", file_name=file_name, url=url)
     os.remove(PATH)
 
 def build_pdf(pdf_path:str, file_name: str, url: str):
