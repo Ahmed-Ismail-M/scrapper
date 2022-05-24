@@ -19,4 +19,5 @@ def generate_pdf():
     create_multiple_qr(data=data)
 
 # main(GSheetService(GSHEET_PATH))
-main(ExcelService(EXCEL_PATH))
+# main(ExcelService(EXCEL_PATH))
+generate_pdf()
