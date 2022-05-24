@@ -8,7 +8,7 @@ from reportlab.platypus import Image
 import pandas as pd
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-
+import arabic_reshaper
 PATH = "qr.png"
 
 
@@ -58,6 +58,7 @@ def create_qr(url: str, file_name: str):
     os.remove(PATH)
 
 def build_pdf(pdf_path:str, file_name: str, url: str):
+    file_name = arabic_reshaper.reshape(file_name)
     pdfmetrics.registerFont(TTFont('Cairo Light', 'fonts/Cairo-Light.ttf'))
     items = []
     p_style = PS(name='Normal_CENTER', alignment=TA_CENTER,fontName='Cairo Light',
