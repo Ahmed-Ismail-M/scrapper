@@ -9,6 +9,7 @@ import pandas as pd
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 import arabic_reshaper
+from bidi.algorithm import get_display
 PATH = "qr.png"
 
 
@@ -51,6 +52,7 @@ def create_qr(url: str, file_name: str):
         border=4,
     )
     qr.add_data(url)
+    
     img = qr.make_image()
     with open(PATH, "wb") as qr:
         img.save(qr)
@@ -58,10 +60,11 @@ def create_qr(url: str, file_name: str):
     os.remove(PATH)
 
 def build_pdf(pdf_path:str, file_name: str, url: str):
+    pdfmetrics.registerFont(TTFont('Noto', 'fonts/Noto.ttf'))
     file_name = arabic_reshaper.reshape(file_name)
-    pdfmetrics.registerFont(TTFont('Cairo Light', 'fonts/Cairo-Light.ttf'))
+    file_name = get_display(file_name)
     items = []
-    p_style = PS(name='Normal_CENTER', alignment=TA_CENTER,fontName='Cairo Light',
+    p_style = PS(name='Normal_CENTER', alignment=TA_CENTER,fontName='Noto',
     fontSize=30)
     items.append(HyperlinkedImage(PATH, url, 300, 300))
     items.append(platypus.Paragraph(file_name, p_style))
