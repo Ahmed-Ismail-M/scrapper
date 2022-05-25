@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 *.xlsx
 *.pdf
+*.zip
 server.py
 # C extensions
 *.so
